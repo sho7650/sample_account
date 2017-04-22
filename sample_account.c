@@ -6,6 +6,7 @@
 #define MAXLEN 20
 #define MAXDEF 1000
 #define SOURCE "sample_account.csv"
+#define DOMAIN "example.com"
 
 struct account {
   char first_kanji[MAXLEN];
@@ -37,15 +38,16 @@ int main(int argc, char *argv[]) {
   }
   fclose(fp);
 
-  int first, last, pref;
+  int  first, last, pref;
+  char domain[] = DOMAIN;
   srand((unsigned)time(NULL));
   for(i = 0; i < max; i++) {
     first = rand()%SAMPLE;
     last  = rand()%SAMPLE;
     pref  = rand()%SAMPLE;
 
-    printf("%d,%s,%s,%s,%s,%s_%s@sfdc.demo,090-%04d-%04d,%s\n", i+1,
+    printf("%d,%s,%s,%s,%s,%s_%s@%s,090-%04d-%04d,%s\n", i+1,
     sample[last].last_kanji, sample[first].first_kanji, sample[last].last_kana, sample[first].first_kana,
-    sample[first].first_name, sample[last].last_name, rand()%10000, rand()%10000, sample[pref].prefecture);
+    sample[first].first_name, sample[last].last_name, domain, rand()%10000, rand()%10000, sample[pref].prefecture);
   }
 }
