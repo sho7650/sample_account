@@ -5,7 +5,7 @@
 #define SAMPLE 5000
 #define MAXLEN 20
 #define MAXDEF 1000
-#define ALL    "sample_account.csv"
+#define SOURCE "sample_account.csv"
 
 struct account {
   char first_kanji[MAXLEN];
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   FILE *fp;
   struct account sample[SAMPLE];
 
-  if ((fp = fopen(ALL, "r")) != NULL) {
+  if ((fp = fopen(SOURCE, "r")) != NULL) {
     while((ret = fscanf(fp, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%s\n",
     sample[i].first_kanji, sample[i].first_kana, sample[i].first_name,
     sample[i].last_kanji,  sample[i].last_kana,  sample[i].last_name,

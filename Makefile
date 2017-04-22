@@ -7,7 +7,7 @@ TARGET   = ./sample_account
 SOURCE   = ./sample_account.c
 
 $(TARGET): $(SOURCE)
-	$(COMPILER) -o $@ $^
+	$(COMPILER) -o $@ $^ $(CFLAGS)
 
 all: clean $(TARGET)
 
