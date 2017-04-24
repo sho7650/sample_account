@@ -31,23 +31,22 @@ int main(int argc, char *argv[]) {
 
   if ((fp = fopen(SOURCE, "r")) != NULL) {
     while((ret = fscanf(fp, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%s\n",
-    sample[i].first_kanji, sample[i].first_kana, sample[i].first_name,
-    sample[i].last_kanji,  sample[i].last_kana,  sample[i].last_name,
+    sample[i].last_kanji, sample[i].last_kana, sample[i].last_name,
+    sample[i].first_kanji,  sample[i].first_kana,  sample[i].first_name,
     sample[i].prefecture)) != EOF)
     ++i;
   }
   fclose(fp);
 
-  int  first, last, pref;
+  int  first, last;
   char domain[] = DOMAIN;
   srand((unsigned)time(NULL));
   for(i = 0; i < max; i++) {
     first = rand()%SAMPLE;
     last  = rand()%SAMPLE;
-    pref  = rand()%SAMPLE;
 
     printf("%d,%s,%s,%s,%s,%s_%s@%s,090-%04d-%04d,%s\n", i+1,
     sample[last].last_kanji, sample[first].first_kanji, sample[last].last_kana, sample[first].first_kana,
-    sample[first].first_name, sample[last].last_name, domain, rand()%10000, rand()%10000, sample[pref].prefecture);
+    sample[first].first_name, sample[last].last_name, domain, rand()%10000, rand()%10000, sample[rand()%SAMPLE].prefecture);
   }
 }
