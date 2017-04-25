@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
   int  first, last;
   char domain[] = DOMAIN;
   srand((unsigned)time(NULL));
+
   for(i = 0; i < max; i++) {
     first = rand()%SAMPLE;
     last  = rand()%SAMPLE;
