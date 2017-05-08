@@ -4,8 +4,7 @@
 #include <time.h>
 
 #include "accounts.h"
-
-#define ACCOUNTS_FILE "./data/sample_account.csv"
+#include "addresses.h"
 
 using namespace std;
 
@@ -13,12 +12,12 @@ int main(int argc, char *argv[]) {
   int i, first, last, max = MAXDEF;
   srand((unsigned)time(NULL));
 
-    if (argc > 1) {
-      max = atoi(argv[argc - 1]);
-    }
+  if (argc > 1) {
+    max = atoi(argv[argc - 1]);
+  }
 
   try {
-    Account sample(ACCOUNTS_FILE);
+    Account sample;
     for (i = 0; i < max; i++) {
       first = rand();
       last  = rand();
@@ -29,4 +28,20 @@ int main(int argc, char *argv[]) {
     cerr << e << endl;
     return 1;
   }
+
+  try {
+    Prefecture sample;
+    for (i = 0; i < PREFECTURES; i++) {
+      cout << sample.getName(i) << "," << sample.getPopulation(i) << endl;
+    }
+    cout << sample.getTotal() << endl;
+    for (i = 0; i < sample.getAddresses(); i++) {
+      cout << sample.getAddress(i) << endl;
+    }
+  }
+  catch (string e) {
+    cerr << e << endl;
+    return 1;
+  }
+
 }

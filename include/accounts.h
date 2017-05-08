@@ -3,11 +3,12 @@
 
 #define ACCOUNTS 5000
 #define DOMAIN   "example.com"
+#define ACC_FILE "data/sample_account.csv"
 #define MAXDEF   100
 
 using namespace std;
 
-struct accounts {
+struct account {
   string last_kanji;
   string last_kana;
   string last_name;
@@ -18,12 +19,17 @@ struct accounts {
 };
 
 class Account {
-  accounts sample_accounts[ACCOUNTS];
+  account sample_accounts[ACCOUNTS];
+  string  accounts_file;
 public:
+  Account();
   Account(string);
-  string   LastName(int);
-  string   FirstName(int);
-  string   mailAddress(int, int);
+  string  LastName(int);
+  string  FirstName(int);
+  string  mailAddress(int, int);
+
+protected:
+  int     ReadFile();
 };
 
 #endif

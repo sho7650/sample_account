@@ -6,10 +6,20 @@
 
 using namespace std;
 
-Account::Account(string file_name) {
-  ifstream ifs(file_name);
+Account::Account() {
+  accounts_file = ACC_FILE;
+  ReadFile();
+}
 
-  if(!ifs) { throw "Exception: file not found: " + file_name; }
+Account::Account(string s) {
+  accounts_file = s;
+  ReadFile();
+}
+
+int Account::ReadFile() {
+  ifstream ifs(accounts_file);
+
+  if(!ifs) { throw "Exception: file not found: " + accounts_file; }
 
   //csvファイルを1行ずつ読み込む
   int    i = 0;
@@ -28,6 +38,7 @@ Account::Account(string file_name) {
 
     ++i;
   }
+  return 0;
 }
 
 string Account::LastName(int num) {
