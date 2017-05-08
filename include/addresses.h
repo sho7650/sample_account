@@ -41,8 +41,6 @@ public:
   string   getAddress(int);
   int      getAddresses();
   int      getZips(int);
-
-protected:
   int      ReadFile();
 };
 

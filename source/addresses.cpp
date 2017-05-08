@@ -11,19 +11,16 @@ using namespace std;
 Prefecture::Prefecture() {
   prefectures_file = PREF_FILE;
   address_file     = ADDRESS_FILE;
-  ReadFile();
 }
 
 Prefecture::Prefecture(string s) {
   prefectures_file = s;
   address_file     = ADDRESS_FILE;
-  ReadFile();
 }
 
 Prefecture::Prefecture(string s1, string s2) {
   prefectures_file = s1;
   address_file     = s2;
-  ReadFile();
 }
 
 int Prefecture::ReadFile() {

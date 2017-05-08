@@ -60,6 +60,8 @@ int main(int argc, char *argv[]) {
     Account name;
     Prefecture addr;
 
+    if ( a_opt ) { addr.ReadFile(); }
+
     for (i = 0; i < max; i++) {
       first = rand();
       last  = rand();
@@ -72,9 +74,9 @@ int main(int argc, char *argv[]) {
       if ( a_opt ) { printf("%c%s%d-%d", opt * ',', addr.getAddress(rand()).c_str(), rand()%100, rand()%100); opt = 1; }
 
       printf("\n");
-//      printf("%s,%s,%s,090-%04d-%04d,%s%d-%d\n",
-//      name.LastName(last).c_str(), name.FirstName(first).c_str(), name.mailAddress(first, last).c_str(),
-//      rand()%1000, rand()%1000,addr.getAddress(rand()).c_str(), rand()%100, rand()%100);
+      //      printf("%s,%s,%s,090-%04d-%04d,%s%d-%d\n",
+      //      name.LastName(last).c_str(), name.FirstName(first).c_str(), name.mailAddress(first, last).c_str(),
+      //      rand()%1000, rand()%1000,addr.getAddress(rand()).c_str(), rand()%100, rand()%100);
 
       //      cout << name.LastName(last) << "," << name.FirstName(first) << "," << name.mailAddress(first, last) << ",";
       //      cout << "090-" << to_string(rand() % 1000) << "-" << to_string(rand() % 1000) << ",";
