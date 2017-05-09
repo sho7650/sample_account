@@ -51,8 +51,8 @@ int main(int argc, char *argv[]) {
       return false;
     }
   }
-
-  if (argc > longindex) {
+  
+  if (argc > optind) {
     max = atoi(argv[argc - 1]);
   }
 
