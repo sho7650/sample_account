@@ -52,9 +52,10 @@ int Prefecture::ReadFile() {
 
   if(!ifs_adr) { throw "Exception: file not found: " + prefectures_file; }
 
-  int       zip = 0;
+  int zip       = 0;
+  int current   = 1;
   sum_addresses = 0;
-  address   tmp;
+  address tmp;
 
   while(getline(ifs_adr, str)){
     string token;
@@ -69,7 +70,18 @@ int Prefecture::ReadFile() {
     sample_addresses.push_back(tmp);
 
     ++sum_addresses;
+
+//    cout << tmp.number << ":";
+
+    if (current == tmp.number) {
+      ++zip;
+    } else {
+      sample_prefectures[current-1].zips = zip;
+      zip = 0;
+      ++current;
+    }
   }
+  sample_prefectures[current-1].zips = zip;
 
   return 0;
 }
@@ -86,8 +98,38 @@ int Prefecture::getTotal() {
   return(sum_population);
 }
 
+int Prefecture::getPrefNumber(int num) {
+  int i, r = 0, p = num % sum_population;
+
+  for (i = 0; i < PREFECTURES; i++) {
+    r += sample_prefectures[i].population;
+    if ( p < r ) { break; }
+  }
+  return(i);
+}
+
+string Prefecture::getPrefecture(int num) {
+  return(sample_prefectures[num % PREFECTURES].name);
+}
+
+int Prefecture::getZips(int num) {
+  return(sample_prefectures[num % PREFECTURES].zips);
+}
+
 string Prefecture::getAddress(int num) {
   return(sample_addresses[num % sum_addresses].prefecture + sample_addresses[num % sum_addresses].ward + sample_addresses[num % sum_addresses].city);
+}
+
+string Prefecture::getAddress(int pref, int num) {
+  int i = 0, r = 0, p;
+  if (pref > r) {
+    for (i = 0; i < pref; i++) {
+      r += sample_prefectures[i].zips;
+    }
+  }
+
+  p = (num % sample_prefectures[i].zips) + r;
+  return(sample_addresses[p].prefecture + sample_addresses[p].ward+sample_addresses[p].city);
 }
 
 int Prefecture::getAddresses() {

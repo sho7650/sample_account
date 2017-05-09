@@ -38,8 +38,11 @@ public:
   string   getName(int);
   int      getPopulation(int);
   int      getTotal();
-  string   getAddress(int);
   int      getAddresses();
+  string   getAddress(int);
+  string   getAddress(int, int);
+  string   getPrefecture(int);
+  int      getPrefNumber(int);
   int      getZips(int);
   int      ReadFile();
 };

@@ -71,9 +71,9 @@ int main(int argc, char *argv[]) {
       if ( f_opt ) { printf("%c%s", opt * ',', name.FirstName(first).c_str()); opt = 1; }
       if ( m_opt ) { printf("%c%s", opt * ',', name.mailAddress(first, last).c_str()); opt = 1; }
       if ( t_opt ) { printf("%c090-%04d-%04d", opt * ',', rand()%1000, rand()%1000); opt = 1; }
-      if ( a_opt ) { printf("%c%s%d-%d", opt * ',', addr.getAddress(rand()).c_str(), rand()%100, rand()%100); opt = 1; }
-
+      if ( a_opt ) { printf("%c%s%d-%d", opt * ',', addr.getAddress(addr.getPrefNumber(rand()),rand()).c_str(), rand()%100, rand()%100); opt = 1; }
       printf("\n");
+
       //      printf("%s,%s,%s,090-%04d-%04d,%s%d-%d\n",
       //      name.LastName(last).c_str(), name.FirstName(first).c_str(), name.mailAddress(first, last).c_str(),
       //      rand()%1000, rand()%1000,addr.getAddress(rand()).c_str(), rand()%100, rand()%100);
