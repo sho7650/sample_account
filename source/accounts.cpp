@@ -22,33 +22,35 @@ int Account::ReadFile() {
   if(!ifs) { throw "Exception: file not found: " + accounts_file; }
 
   //csvファイルを1行ずつ読み込む
-  int    i = 0;
-  string str;
+  total_accounts = 0;
+  account tmp;
+  string  str;
   while(getline(ifs, str)){
     string token;
     istringstream stream(str);
 
-    getline(stream, sample_accounts[i].last_kanji, ',');
-    getline(stream, sample_accounts[i].last_kana, ',');
-    getline(stream, sample_accounts[i].last_name, ',');
-    getline(stream, sample_accounts[i].first_kanji, ',');
-    getline(stream, sample_accounts[i].first_kana, ',');
-    getline(stream, sample_accounts[i].first_name, ',');
-    getline(stream, sample_accounts[i].prefecture);
+    getline(stream, tmp.last_kanji, ',');
+    getline(stream, tmp.last_kana, ',');
+    getline(stream, tmp.last_name, ',');
+    getline(stream, tmp.first_kanji, ',');
+    getline(stream, tmp.first_kana, ',');
+    getline(stream, tmp.first_name, ',');
+    getline(stream, tmp.prefecture);
 
-    ++i;
+    sample_accounts.push_back(tmp);
+    ++total_accounts;
   }
   return 0;
 }
 
 string Account::LastName(int num) {
-  return(sample_accounts[num % ACCOUNTS].last_kanji + "," + sample_accounts[num % ACCOUNTS].last_kana);
+  return(sample_accounts[num % total_accounts].last_kanji + "," + sample_accounts[num % total_accounts].last_kana);
 }
 
 string Account::FirstName(int num) {
-  return(sample_accounts[num % ACCOUNTS].first_kanji + "," + sample_accounts[num % ACCOUNTS].first_kana);
+  return(sample_accounts[num % total_accounts].first_kanji + "," + sample_accounts[num % total_accounts].first_kana);
 }
 
 string Account::mailAddress(int first, int last) {
-  return(sample_accounts[first % ACCOUNTS].first_name + "_" + sample_accounts[last % ACCOUNTS].last_name + "@" + DOMAIN);
+  return(sample_accounts[first % total_accounts].first_name + "_" + sample_accounts[last % total_accounts].last_name + "@" + DOMAIN);
 }

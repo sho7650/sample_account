@@ -1,7 +1,9 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
-#define ACCOUNTS 5000
+#include <vector>
+
+// #define ACCOUNTS 5000
 #define DOMAIN   "example.com"
 #define ACC_FILE "data/sample_account.csv"
 #define MAXDEF   100
@@ -19,8 +21,9 @@ struct account {
 };
 
 class Account {
-  account sample_accounts[ACCOUNTS];
-  string  accounts_file;
+  vector<account> sample_accounts;
+  int             total_accounts;
+  string          accounts_file;
 public:
   Account();
   Account(string);
