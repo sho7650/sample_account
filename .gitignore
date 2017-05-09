@@ -77,3 +77,4 @@
 *.zip
 sample_account
 /temp
+.DS_Store
