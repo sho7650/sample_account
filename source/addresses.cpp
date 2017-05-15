@@ -8,6 +8,16 @@
 
 using namespace std;
 
+int Prefecture::getZip(int pref, int num) {
+  int i = 0, r = 0;
+  if (pref > r) {
+    for (i = 0; i < pref; i++) {
+      r += sample_prefectures[i].zips;
+    }
+  }
+  return ((num % sample_prefectures[i].zips) + r);
+}
+
 Prefecture::Prefecture() {
   prefectures_file = PREF_FILE;
   address_file     = ADDRESS_FILE;
@@ -98,13 +108,14 @@ int Prefecture::getTotal() {
   return(sum_population);
 }
 
-int Prefecture::getPrefNumber(int num) {
+int Prefecture::setPrefNumber(int num) {
   int i, r = 0, p = num % sum_population;
 
   for (i = 0; i < PREFECTURES; i++) {
     r += sample_prefectures[i].population;
     if ( p < r ) { break; }
   }
+  prefecture_number = i;
   return(i);
 }
 
@@ -121,14 +132,7 @@ string Prefecture::getAddress(int num) {
 }
 
 string Prefecture::getAddress(int pref, int num) {
-  int i = 0, r = 0, p;
-  if (pref > r) {
-    for (i = 0; i < pref; i++) {
-      r += sample_prefectures[i].zips;
-    }
-  }
-
-  p = (num % sample_prefectures[i].zips) + r;
+  int p = getZip(pref, num);
   return(sample_addresses[p].prefecture + sample_addresses[p].ward+sample_addresses[p].city);
 }
 
@@ -136,30 +140,14 @@ string Prefecture::getWard(int num) {
   return(sample_addresses[num % sum_addresses].ward);
 }
 string Prefecture::getWard(int pref, int num) {
-  int i = 0, r = 0, p;
-  if (pref > r) {
-    for (i = 0; i < pref; i++) {
-      r += sample_prefectures[i].zips;
-    }
-  }
-
-  p = (num % sample_prefectures[i].zips) + r;
-  return(sample_addresses[p].ward);
+  return(sample_addresses[getZip(pref, num)].ward);
 }
 
 string Prefecture::getCity(int num) {
   return(sample_addresses[num % sum_addresses].city);
 }
 string Prefecture::getCity(int pref, int num) {
-  int i = 0, r = 0, p;
-  if (pref > r) {
-    for (i = 0; i < pref; i++) {
-      r += sample_prefectures[i].zips;
-    }
-  }
-
-  p = (num % sample_prefectures[i].zips) + r;
-  return(sample_addresses[p].city);
+  return(sample_addresses[getZip(pref, num)].city);
 }
 
 int Prefecture::getAddresses() {

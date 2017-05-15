@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < max; i++) {
       first = rand();
       last  = rand();
-      pref  = addr.getPrefNumber(rand());
+      pref  = addr.setPrefNumber(rand());
       ward  = rand();
       city  = rand();
       opt   = 0;
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
       if ( p_opt ) { printf("%c%s", opt * ',', addr.getPrefecture(pref).c_str()); opt = 1; }
       if ( w_opt ) { printf("%c%s", opt * ',', addr.getWard(pref, ward).c_str()); opt = 1; }
       if ( c_opt ) { printf("%c%s", opt * ',', addr.getCity(pref, city).c_str()); opt = 1; }
-      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getAddress(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
+      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
 
       printf("\n");
 

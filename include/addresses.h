@@ -28,8 +28,10 @@ class Prefecture {
   string     address_file;
   int        sum_population;
   int        sum_addresses;
+  int        prefecture_number;
   prefecture sample_prefectures[PREFECTURES];
   vector <address> sample_addresses;
+  int        getZip(int, int);
 
 public:
   Prefecture();
@@ -46,7 +48,7 @@ public:
   string   getWard(int, int);
   string   getCity(int);
   string   getCity(int, int);
-  int      getPrefNumber(int);
+  int      setPrefNumber(int);
   int      getZips(int);
   int      ReadFile();
 };
