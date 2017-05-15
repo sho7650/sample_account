@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "lfmatpwc", longopts, &longindex)) != -1) {
+  while ((opt = getopt_long(argc, argv, "lfmatpwcgb", longopts, &longindex)) != -1) {
     switch(opt) {
       case 'l':
       l_opt = false;
