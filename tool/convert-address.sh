@@ -19,4 +19,4 @@ else
 fi
 
 
-cat ${jpdata} | nkf | awk -F'[,]' '{ printf "%s,%s,%s,%s\n",substr($1,1,2), $7,$8,$9 }' | sed -e 's/"//g' | sed -e 's/（.*）//g' | grep -v '以下に掲載がない場合' | uniq
+cat ${jpdata} | nkf | awk -F'[,]' '{ printf "%s,%s,%s,%s\n",substr($1,1,2), $7,$8,$9 }' | sed -e 's/"//g' | sed -e 's/（.*）//g' | grep -v '以下に掲載がない場合' | grep -v ） | grep -v 、 | sed -e 's/\(.*\)（.*/\1/g' | nkf -m0Z1 | sed -e 's/\(.*\),[0-9].*/\1/g' | uniq
