@@ -21,13 +21,20 @@ int main(int argc, char *argv[]) {
   bool p_opt = true;
   bool w_opt = true;
   bool c_opt = true;
+  bool g_opt = true;
+  bool b_opt = true;
   struct option longopts[] = {
-    { "lastname",  no_argument, NULL, 'l' },
-    { "firstname", no_argument, NULL, 'f' },
-    { "mail",      no_argument, NULL, 'm' },
-    { "address",   no_argument, NULL, 'a' },
-    { "telehpne",  no_argument, NULL, 't' },
-    { 0,           0,           0,     0  },
+    { "lastname",   no_argument, NULL, 'l' },
+    { "firstname",  no_argument, NULL, 'f' },
+    { "mail",       no_argument, NULL, 'm' },
+    { "address",    no_argument, NULL, 'a' },
+    { "telehpne",   no_argument, NULL, 't' },
+    { "prefecture", no_argument, NULL, 'p' },
+    { "ward",       no_argument, NULL, 'w' },
+    { "city",       no_argument, NULL, 'c' },
+    { "gender",     no_argument, NULL, 'g' },
+    { "blood",      no_argument, NULL, 'b' },
+    { 0,            0,           0,     0  },
   };
 
   int opt, longindex;
@@ -50,13 +57,19 @@ int main(int argc, char *argv[]) {
       t_opt = false;
       break;
       case 'p':
-      l_opt = false;
+      p_opt = false;
       break;
       case 'w':
-      l_opt = false;
+      w_opt = false;
       break;
       case 'c':
-      l_opt = false;
+      c_opt = false;
+      break;
+      case 'g':
+      g_opt = false;
+      break;
+      case 'b':
+      b_opt = false;
       break;
       default:
       cerr << "error" << endl;
@@ -89,6 +102,8 @@ int main(int argc, char *argv[]) {
       if ( p_opt ) { printf("%c%s", opt * ',', addr.getPrefecture(pref).c_str()); opt = 1; }
       if ( w_opt ) { printf("%c%s", opt * ',', addr.getWard(pref, ward).c_str()); opt = 1; }
       if ( c_opt ) { printf("%c%s", opt * ',', addr.getCity(pref, city).c_str()); opt = 1; }
+      if ( g_opt ) { printf("%c%s", opt * ',', name.getGender(first).c_str()); opt = 1; }
+      if ( b_opt ) { printf("%c%s", opt * ',', name.getBloodType(rand()).c_str()); opt = 1; }
       if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
 
       printf("\n");

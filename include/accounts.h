@@ -17,7 +17,8 @@ struct account {
   string first_kanji;
   string first_kana;
   string first_name;
-  string prefecture;
+  string gender;
+  string blood_type;
 };
 
 class Account {
@@ -30,6 +31,8 @@ public:
   string  LastName(int);
   string  FirstName(int);
   string  mailAddress(int, int);
+  string  getGender(int);
+  string  getBloodType(int);
 
 protected:
   int     ReadFile();

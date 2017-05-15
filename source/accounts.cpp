@@ -35,7 +35,8 @@ int Account::ReadFile() {
     getline(stream, tmp.first_kanji, ',');
     getline(stream, tmp.first_kana, ',');
     getline(stream, tmp.first_name, ',');
-    getline(stream, tmp.prefecture);
+    getline(stream, tmp.gender, ',');
+    getline(stream, tmp.blood_type);
 
     sample_accounts.push_back(tmp);
     ++total_accounts;
@@ -53,4 +54,12 @@ string Account::FirstName(int num) {
 
 string Account::mailAddress(int first, int last) {
   return(sample_accounts[first % total_accounts].first_name + "_" + sample_accounts[last % total_accounts].last_name + "@" + DOMAIN);
+}
+
+string Account::getGender(int num) {
+  return(sample_accounts[num % total_accounts].gender);
+}
+
+string Account::getBloodType(int num) {
+  return(sample_accounts[num % total_accounts].blood_type);
 }
