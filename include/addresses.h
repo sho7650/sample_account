@@ -42,6 +42,10 @@ public:
   string   getAddress(int);
   string   getAddress(int, int);
   string   getPrefecture(int);
+  string   getWard(int);
+  string   getWard(int, int);
+  string   getCity(int);
+  string   getCity(int, int);
   int      getPrefNumber(int);
   int      getZips(int);
   int      ReadFile();

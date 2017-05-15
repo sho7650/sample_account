@@ -10,7 +10,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  int i, first, last, max = MAXDEF;
+  int i, first, last, pref, ward, city, max = MAXDEF;
   srand((unsigned)time(NULL));
 
   bool l_opt = true;
@@ -18,6 +18,9 @@ int main(int argc, char *argv[]) {
   bool m_opt = true;
   bool a_opt = true;
   bool t_opt = true;
+  bool p_opt = true;
+  bool w_opt = true;
+  bool c_opt = true;
   struct option longopts[] = {
     { "lastname",  no_argument, NULL, 'l' },
     { "firstname", no_argument, NULL, 'f' },
@@ -29,7 +32,7 @@ int main(int argc, char *argv[]) {
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "lfmat", longopts, &longindex)) != -1) {
+  while ((opt = getopt_long(argc, argv, "lfmatpwc", longopts, &longindex)) != -1) {
     switch(opt) {
       case 'l':
       l_opt = false;
@@ -46,12 +49,21 @@ int main(int argc, char *argv[]) {
       case 't':
       t_opt = false;
       break;
+      case 'p':
+      l_opt = false;
+      break;
+      case 'w':
+      l_opt = false;
+      break;
+      case 'c':
+      l_opt = false;
+      break;
       default:
       cerr << "error" << endl;
       return false;
     }
   }
-  
+
   if (argc > optind) {
     max = atoi(argv[argc - 1]);
   }
@@ -65,13 +77,20 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < max; i++) {
       first = rand();
       last  = rand();
+      pref  = addr.getPrefNumber(rand());
+      ward  = rand();
+      city  = rand();
       opt   = 0;
 
       if ( l_opt ) { printf("%s", name.LastName(last).c_str()); opt = 1; }
       if ( f_opt ) { printf("%c%s", opt * ',', name.FirstName(first).c_str()); opt = 1; }
       if ( m_opt ) { printf("%c%s", opt * ',', name.mailAddress(first, last).c_str()); opt = 1; }
       if ( t_opt ) { printf("%c090-%04d-%04d", opt * ',', rand()%1000, rand()%1000); opt = 1; }
-      if ( a_opt ) { printf("%c%s%d-%d", opt * ',', addr.getAddress(addr.getPrefNumber(rand()),rand()).c_str(), rand()%100, rand()%100); opt = 1; }
+      if ( p_opt ) { printf("%c%s", opt * ',', addr.getPrefecture(pref).c_str()); opt = 1; }
+      if ( w_opt ) { printf("%c%s", opt * ',', addr.getWard(pref, ward).c_str()); opt = 1; }
+      if ( c_opt ) { printf("%c%s", opt * ',', addr.getCity(pref, city).c_str()); opt = 1; }
+      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getAddress(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
+
       printf("\n");
 
       //      printf("%s,%s,%s,090-%04d-%04d,%s%d-%d\n",

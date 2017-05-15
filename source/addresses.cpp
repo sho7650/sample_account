@@ -132,6 +132,36 @@ string Prefecture::getAddress(int pref, int num) {
   return(sample_addresses[p].prefecture + sample_addresses[p].ward+sample_addresses[p].city);
 }
 
+string Prefecture::getWard(int num) {
+  return(sample_addresses[num % sum_addresses].ward);
+}
+string Prefecture::getWard(int pref, int num) {
+  int i = 0, r = 0, p;
+  if (pref > r) {
+    for (i = 0; i < pref; i++) {
+      r += sample_prefectures[i].zips;
+    }
+  }
+
+  p = (num % sample_prefectures[i].zips) + r;
+  return(sample_addresses[p].ward);
+}
+
+string Prefecture::getCity(int num) {
+  return(sample_addresses[num % sum_addresses].city);
+}
+string Prefecture::getCity(int pref, int num) {
+  int i = 0, r = 0, p;
+  if (pref > r) {
+    for (i = 0; i < pref; i++) {
+      r += sample_prefectures[i].zips;
+    }
+  }
+
+  p = (num % sample_prefectures[i].zips) + r;
+  return(sample_addresses[p].city);
+}
+
 int Prefecture::getAddresses() {
   return(sum_addresses);
 }
