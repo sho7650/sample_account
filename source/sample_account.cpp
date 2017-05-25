@@ -4,8 +4,10 @@
 #include <time.h>
 #include <getopt.h>
 
+#include "sample_account.h"
 #include "accounts.h"
 #include "addresses.h"
+#include "random.h"
 
 using namespace std;
 
@@ -13,17 +15,19 @@ int main(int argc, char *argv[]) {
   int i, first, last, pref, ward, city, max = MAXDEF;
   srand((unsigned)time(NULL));
 
-  bool l_opt = true;
-  bool f_opt = true;
-  bool m_opt = true;
-  bool a_opt = true;
-  bool t_opt = true;
-  bool p_opt = true;
-  bool w_opt = true;
-  bool c_opt = true;
-  bool g_opt = true;
-  bool b_opt = true;
+  bool i_opt = false;
+  bool l_opt = false;
+  bool f_opt = false;
+  bool m_opt = false;
+  bool a_opt = false;
+  bool t_opt = false;
+  bool p_opt = false;
+  bool w_opt = false;
+  bool c_opt = false;
+  bool g_opt = false;
+  bool b_opt = false;
   struct option longopts[] = {
+    { "id",         no_argument, NULL, 'i' },
     { "lastname",   no_argument, NULL, 'l' },
     { "firstname",  no_argument, NULL, 'f' },
     { "mail",       no_argument, NULL, 'm' },
@@ -39,41 +43,44 @@ int main(int argc, char *argv[]) {
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "lfmatpwcgb", longopts, &longindex)) != -1) {
+  while ((opt = getopt_long(argc, argv, "ilfmatpwcgb", longopts, &longindex)) != -1) {
     switch(opt) {
+      case 'i':
+      i_opt = true;
+      break;
       case 'l':
-      l_opt = false;
+      l_opt = true;
       break;
       case 'f':
-      f_opt = false;
+      f_opt = true;
       break;
       case 'm':
-      m_opt = false;
+      m_opt = true;
       break;
       case 'a':
-      a_opt = false;
+      a_opt = true;
       break;
       case 't':
-      t_opt = false;
+      t_opt = true;
       break;
       case 'p':
-      p_opt = false;
+      p_opt = true;
       break;
       case 'w':
-      w_opt = false;
+      w_opt = true;
       break;
       case 'c':
-      c_opt = false;
+      c_opt = true;
       break;
       case 'g':
-      g_opt = false;
+      g_opt = true;
       break;
       case 'b':
-      b_opt = false;
+      b_opt = true;
       break;
       default:
       cerr << "error" << endl;
-      return false;
+      return true;
     }
   }
 
@@ -85,8 +92,6 @@ int main(int argc, char *argv[]) {
     Account name;
     Prefecture addr;
 
-    if ( a_opt ) { addr.ReadFile(); }
-
     for (i = 0; i < max; i++) {
       first = rand();
       last  = rand();
@@ -95,6 +100,7 @@ int main(int argc, char *argv[]) {
       city  = rand();
       opt   = 0;
 
+      if ( i_opt ) { printf("%i", i + 1); opt = 1; }
       if ( l_opt ) { printf("%s", name.LastName(last).c_str()); opt = 1; }
       if ( f_opt ) { printf("%c%s", opt * ',', name.FirstName(first).c_str()); opt = 1; }
       if ( m_opt ) { printf("%c%s", opt * ',', name.mailAddress(first, last).c_str()); opt = 1; }
@@ -105,6 +111,8 @@ int main(int argc, char *argv[]) {
       if ( g_opt ) { printf("%c%s", opt * ',', name.getGender(first).c_str()); opt = 1; }
       if ( b_opt ) { printf("%c%s", opt * ',', name.getBloodType(rand()).c_str()); opt = 1; }
       if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
+
+      if ( opt == 0 ) { printf("%i", i + 1); }
 
       printf("\n");
 
