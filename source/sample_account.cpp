@@ -18,8 +18,8 @@ int main(int argc, char *argv[]) {
   string key;
   int hash_seed = rand();
 
-  bool d2_opt = false;
-  bool d5_opt = false;
+  bool s2_opt = false;
+  bool s5_opt = false;
   bool i_opt = false;
   bool l_opt = false;
   bool f_opt = false;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     { "lastname",   no_argument, NULL, 'l' },
     { "firstname",  no_argument, NULL, 'f' },
     { "mail",       no_argument, NULL, 'm' },
-    { "address",    no_argument, NULL, 'a' },
+    { "age",        no_argument, NULL, 'a' },
     { "telehpne",   no_argument, NULL, 't' },
     { "prefecture", no_argument, NULL, 'p' },
     { "ward",       no_argument, NULL, 'w' },
@@ -51,10 +51,10 @@ int main(int argc, char *argv[]) {
   while ((opt = getopt_long(argc, argv, "25ilfmatpwcgb", longopts, &longindex)) != -1) {
     switch(opt) {
       case '2':
-      d2_opt = true;
+      s2_opt = true;
       break;
       case '5':
-      d5_opt = true;
+      s5_opt = true;
       break;
       case 'i':
       i_opt = true;
@@ -103,6 +103,7 @@ int main(int argc, char *argv[]) {
     Account name;
     Prefecture addr;
     GenerateHash hash;
+    Random number;
 
     for (i = 0; i < max; i++) {
       first = rand();
@@ -114,8 +115,8 @@ int main(int argc, char *argv[]) {
       key   = to_string(i + hash_seed);
 
       if ( i_opt ) { printf("%i", i + 1); opt = 1; }
-      if (d2_opt ) { printf("%c%s", opt * ',', hash.getSHA256(key)); opt = 1; }
-      if (d5_opt ) { printf("%c%s", opt * ',', hash.getSHA512(key)); opt = 1; }
+      if (s2_opt ) { printf("%c%s", opt * ',', hash.getSHA256(key)); opt = 1; }
+      if (s5_opt ) { printf("%c%s", opt * ',', hash.getSHA512(key)); opt = 1; }
       if ( l_opt ) { printf("%c%s", opt * ',', name.LastName(last).c_str()); opt = 1; }
       if ( f_opt ) { printf("%c%s", opt * ',', name.FirstName(first).c_str()); opt = 1; }
       if ( m_opt ) { printf("%c%s", opt * ',', name.mailAddress(first, last).c_str()); opt = 1; }
@@ -125,7 +126,8 @@ int main(int argc, char *argv[]) {
       if ( c_opt ) { printf("%c%s", opt * ',', addr.getCity(pref, city).c_str()); opt = 1; }
       if ( g_opt ) { printf("%c%s", opt * ',', name.getGender(first).c_str()); opt = 1; }
       if ( b_opt ) { printf("%c%s", opt * ',', name.getBloodType(rand()).c_str()); opt = 1; }
-      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
+      if ( a_opt ) { printf("%c%i", opt * ',', number.getAge(rand())); opt = 1; }
+//      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
 
       if ( opt == 0 ) { printf("%i", i + 1); }
 
