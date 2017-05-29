@@ -8,13 +8,18 @@
 #include "accounts.h"
 #include "addresses.h"
 #include "random.h"
+#include "hash.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
   int i, first, last, pref, ward, city, max = MAXDEF;
   srand((unsigned)time(NULL));
+  string key;
+  int hash_seed = rand();
 
+  bool d2_opt = false;
+  bool d5_opt = false;
   bool i_opt = false;
   bool l_opt = false;
   bool f_opt = false;
@@ -43,8 +48,14 @@ int main(int argc, char *argv[]) {
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "ilfmatpwcgb", longopts, &longindex)) != -1) {
+  while ((opt = getopt_long(argc, argv, "25ilfmatpwcgb", longopts, &longindex)) != -1) {
     switch(opt) {
+      case '2':
+      d2_opt = true;
+      break;
+      case '5':
+      d5_opt = true;
+      break;
       case 'i':
       i_opt = true;
       break;
@@ -91,6 +102,7 @@ int main(int argc, char *argv[]) {
   try {
     Account name;
     Prefecture addr;
+    GenerateHash hash;
 
     for (i = 0; i < max; i++) {
       first = rand();
@@ -99,9 +111,12 @@ int main(int argc, char *argv[]) {
       ward  = rand();
       city  = rand();
       opt   = 0;
+      key   = to_string(i + hash_seed);
 
       if ( i_opt ) { printf("%i", i + 1); opt = 1; }
-      if ( l_opt ) { printf("%s", name.LastName(last).c_str()); opt = 1; }
+      if (d2_opt ) { printf("%c%s", opt * ',', hash.getSHA256(key)); opt = 1; }
+      if (d5_opt ) { printf("%c%s", opt * ',', hash.getSHA512(key)); opt = 1; }
+      if ( l_opt ) { printf("%c%s", opt * ',', name.LastName(last).c_str()); opt = 1; }
       if ( f_opt ) { printf("%c%s", opt * ',', name.FirstName(first).c_str()); opt = 1; }
       if ( m_opt ) { printf("%c%s", opt * ',', name.mailAddress(first, last).c_str()); opt = 1; }
       if ( t_opt ) { printf("%c090-%04d-%04d", opt * ',', rand()%1000, rand()%1000); opt = 1; }
