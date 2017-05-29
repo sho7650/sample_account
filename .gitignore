@@ -83,3 +83,4 @@ sample_account
 
 # Log files
 *.log
+/old

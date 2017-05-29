@@ -13,7 +13,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  int i, first, last, pref, ward, city, max = MAXDEF;
+  int i, first, last, pref, ward, city, age, max = MAXDEF;
   srand((unsigned)time(NULL));
   string key;
   int hash_seed = rand();
@@ -25,12 +25,15 @@ int main(int argc, char *argv[]) {
   bool f_opt = false;
   bool m_opt = false;
   bool a_opt = false;
+  bool o_opt = false;
   bool t_opt = false;
   bool p_opt = false;
   bool w_opt = false;
   bool c_opt = false;
   bool g_opt = false;
   bool b_opt = false;
+  bool r_opt = false;
+  bool y_opt = false;
   struct option longopts[] = {
     { "id",         no_argument, NULL, 'i' },
     { "lastname",   no_argument, NULL, 'l' },
@@ -48,7 +51,7 @@ int main(int argc, char *argv[]) {
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "25ilfmatpwcgb", longopts, &longindex)) != -1) {
+  while ((opt = getopt_long(argc, argv, "25ilfmaotpwrycgb", longopts, &longindex)) != -1) {
     switch(opt) {
       case '2':
       s2_opt = true;
@@ -71,6 +74,9 @@ int main(int argc, char *argv[]) {
       case 'a':
       a_opt = true;
       break;
+      case 'o':
+      o_opt = true;
+      break;
       case 't':
       t_opt = true;
       break;
@@ -82,6 +88,12 @@ int main(int argc, char *argv[]) {
       break;
       case 'c':
       c_opt = true;
+      break;
+      case 'r':
+      r_opt = true;
+      break;
+      case 'y':
+      y_opt = true;
       break;
       case 'g':
       g_opt = true;
@@ -113,6 +125,7 @@ int main(int argc, char *argv[]) {
       city  = rand();
       opt   = 0;
       key   = to_string(i + hash_seed);
+      age   = rand();
 
       if ( i_opt ) { printf("%i", i + 1); opt = 1; }
       if (s2_opt ) { printf("%c%s", opt * ',', hash.getSHA256(key)); opt = 1; }
@@ -126,7 +139,10 @@ int main(int argc, char *argv[]) {
       if ( c_opt ) { printf("%c%s", opt * ',', addr.getCity(pref, city).c_str()); opt = 1; }
       if ( g_opt ) { printf("%c%s", opt * ',', name.getGender(first).c_str()); opt = 1; }
       if ( b_opt ) { printf("%c%s", opt * ',', name.getBloodType(rand()).c_str()); opt = 1; }
-      if ( a_opt ) { printf("%c%i", opt * ',', number.getAge(rand())); opt = 1; }
+      if ( a_opt ) { printf("%c%i", opt * ',', number.getAge(age)); opt = 1; }
+      if ( o_opt ) { printf("%c%i", opt * ',', number.getAgeGroup(age)); opt = 1; }
+      if ( r_opt ) { printf("%c%i", opt * ',', number.getReward(age)); opt = 1; }
+      if ( y_opt ) { printf("%c%i", opt * ',', number.getBirthYear(age)); opt = 1; }
 //      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
 
       if ( opt == 0 ) { printf("%i", i + 1); }

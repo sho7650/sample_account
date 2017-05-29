@@ -29,6 +29,9 @@ public:
   Random(string);
   int getRandom(int);
   int getAge(int);
+  int getAgeGroup(int);
+  int getBirthYear(int);
+  int getReward(int);
 };
 
 #endif
