@@ -3,6 +3,7 @@
 #include <string>
 #include <time.h>
 #include <getopt.h>
+#include <vector>
 
 #include "sample_account.h"
 #include "accounts.h"
@@ -13,27 +14,12 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  int i, first, last, pref, ward, city, age, max = MAXDEF;
+  int i, j, first, last, pref, ward, city, age, max = MAXDEF;
+  int opts[OPTIONS], max_opts = 0;
   srand((unsigned)time(NULL));
   string key;
   int hash_seed = rand();
 
-//  bool s2_opt = false;
-//  bool s5_opt = false;
-  bool i_opt = false;
-  bool l_opt = false;
-  bool f_opt = false;
-  bool m_opt = false;
-  bool a_opt = false;
-  bool o_opt = false;
-  bool t_opt = false;
-  bool p_opt = false;
-  bool w_opt = false;
-  bool c_opt = false;
-  bool g_opt = false;
-  bool b_opt = false;
-  bool r_opt = false;
-  bool y_opt = false;
   struct option longopts[] = {
     { "id",         no_argument, NULL, 'i' },
     { "lastname",   no_argument, NULL, 'l' },
@@ -52,62 +38,11 @@ int main(int argc, char *argv[]) {
   int opt, longindex;
 
   while ((opt = getopt_long(argc, argv, "ilfmaotpwrycgb", longopts, &longindex)) != -1) {
-    switch(opt) {
-/*
-      case '2':
-      s2_opt = true;
-      break;
-      case '5':
-      s5_opt = true;
-      break;
-*/
+    opts[max_opts++] = opt;
+  }
 
-      case 'i':
-      i_opt = true;
-      break;
-      case 'l':
-      l_opt = true;
-      break;
-      case 'f':
-      f_opt = true;
-      break;
-      case 'm':
-      m_opt = true;
-      break;
-      case 'a':
-      a_opt = true;
-      break;
-      case 'o':
-      o_opt = true;
-      break;
-      case 't':
-      t_opt = true;
-      break;
-      case 'p':
-      p_opt = true;
-      break;
-      case 'w':
-      w_opt = true;
-      break;
-      case 'c':
-      c_opt = true;
-      break;
-      case 'r':
-      r_opt = true;
-      break;
-      case 'y':
-      y_opt = true;
-      break;
-      case 'g':
-      g_opt = true;
-      break;
-      case 'b':
-      b_opt = true;
-      break;
-      default:
-      cerr << "error" << endl;
-      return true;
-    }
+  if (max_opts == 0) {
+    opts[max_opts++] = 'i';
   }
 
   if (argc > optind) {
@@ -117,8 +52,8 @@ int main(int argc, char *argv[]) {
   try {
     Account name;
     Prefecture addr;
-//    GenerateHash hash;
     Random number;
+    //    GenerateHash hash;
 
     for (i = 0; i < max; i++) {
       first = rand();
@@ -130,29 +65,72 @@ int main(int argc, char *argv[]) {
       key   = to_string(i + hash_seed);
       age   = rand();
 
-      if ( i_opt ) { printf("%i", i + 1); opt = 1; }
-/*
-      if (s2_opt ) { printf("%c%s", opt * ',', hash.getSHA256(key)); opt = 1; }
-      if (s5_opt ) { printf("%c%s", opt * ',', hash.getSHA512(key)); opt = 1; }
-*/
-      if ( l_opt ) { printf("%c%s", opt * ',', name.LastName(last).c_str()); opt = 1; }
-      if ( f_opt ) { printf("%c%s", opt * ',', name.FirstName(first).c_str()); opt = 1; }
-      if ( m_opt ) { printf("%c%s", opt * ',', name.mailAddress(first, last).c_str()); opt = 1; }
-      if ( t_opt ) { printf("%c090-%04d-%04d", opt * ',', rand()%1000, rand()%1000); opt = 1; }
-      if ( p_opt ) { printf("%c%s", opt * ',', addr.getPrefecture(pref).c_str()); opt = 1; }
-      if ( w_opt ) { printf("%c%s", opt * ',', addr.getWard(pref, ward).c_str()); opt = 1; }
-      if ( c_opt ) { printf("%c%s", opt * ',', addr.getCity(pref, city).c_str()); opt = 1; }
-      if ( g_opt ) { printf("%c%s", opt * ',', name.getGender(first).c_str()); opt = 1; }
-      if ( b_opt ) { printf("%c%s", opt * ',', name.getBloodType(rand()).c_str()); opt = 1; }
-      if ( a_opt ) { printf("%c%i", opt * ',', number.getAge(age)); opt = 1; }
-      if ( o_opt ) { printf("%c%i", opt * ',', number.getAgeGroup(age)); opt = 1; }
-      if ( r_opt ) { printf("%c%i", opt * ',', number.getReward(age)); opt = 1; }
-      if ( y_opt ) { printf("%c%i", opt * ',', number.getBirthYear(age)); opt = 1; }
-//      if ( a_opt ) { printf("%c%s%s%s%d-%d", opt * ',', addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100); opt = 1; }
+      for (j = 0; j < max_opts; j++) {
+        if (j > 0) { printf(","); }
 
-      if ( opt == 0 ) { printf("%i", i + 1); }
+        switch (opts[j]) {
+          case 'i':
+          printf("%i", i + 1);
+          break;
+          /*
+          if (s2': { printf("%s", hash.getSHA256(key));
+          if (s5': { printf("%s", hash.getSHA512(key));
+          */
+          case 'l':
+          printf("%s", name.LastName(last).c_str());
+          break;
 
+          case 'f':
+          printf("%s", name.FirstName(first).c_str());
+          break;
+
+          case 'm':
+          printf("%s", name.mailAddress(first, last).c_str());
+          case 't':
+
+          printf("090-%04d-%04d", rand()%1000, rand()%1000);
+          break;
+
+          case 'p':
+          printf("%s", addr.getPrefecture(pref).c_str());
+          break;
+
+          case 'w':
+          printf("%s", addr.getWard(pref, ward).c_str());
+          break;
+
+          case 'c':
+          printf("%s", addr.getCity(pref, city).c_str());
+          break;
+
+          case 'g':
+          printf("%s", name.getGender(first).c_str());
+          break;
+
+          case 'b':
+          printf("%s", name.getBloodType(rand()).c_str());
+          break;
+
+          case 'a':
+          printf("%i", number.getAge(age));
+          break;
+
+          case 'o':
+          printf("%i", number.getAgeGroup(age));
+          break;
+
+          case 'r':
+          printf("%i", number.getReward(age));
+          break;
+
+          case 'y':
+          printf("%i", number.getBirthYear(age));
+          break;
+          //      case 'a': { printf("%s%s%s%d-%d", addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100);
+        }
+      }
       printf("\n");
+
 
       //      printf("%s,%s,%s,090-%04d-%04d,%s%d-%d\n",
       //      name.LastName(last).c_str(), name.FirstName(first).c_str(), name.mailAddress(first, last).c_str(),
