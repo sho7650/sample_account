@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
       opt = 0;
       key = to_string(i + hash_seed);
       age = rand();
+      number.setTime();
 
       for (j = 0; j < max_opts; j++)
       {
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
           break;
 
         case 'd':
-          printf("%i/%i/%i", 2020 - rand() % 3, number.getBirthMonth(age), number.getBirthDay(age));
+          printf("%i/%i/%i", number.getRandomYear(), number.getRandomMonth(), number.getRandomDay());
           break;
 
         case 'n':

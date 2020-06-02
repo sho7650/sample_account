@@ -16,6 +16,12 @@ Random::Random(string s)
   ReadFile();
 }
 
+void Random::setTime(void)
+{
+  time_t now = time(nullptr);
+  rand_time = rand() % now;
+}
+
 int Random::ReadFile()
 {
   ifstream ifs(age_file);
@@ -78,21 +84,21 @@ int Random::getBirthYear(int num)
   return (lt->tm_year + 1900 - age);
 }
 
-int Random::getBirthMonth(int num)
+int Random::getRandomYear(void)
 {
-  time_t now = time(nullptr);
-  time_t rand_time = rand() % now;
   const tm *lt = localtime(&rand_time);
+  return (lt->tm_year + 1900);
+}
 
+int Random::getRandomMonth(void)
+{
+  const tm *lt = localtime(&rand_time);
   return (lt->tm_mon + 1);
 }
 
-int Random::getBirthDay(int num)
+int Random::getRandomDay(void)
 {
-  time_t now = time(nullptr);
-  time_t rand_time = rand() % now;
   const tm *lt = localtime(&rand_time);
-
   return (lt->tm_mday);
 }
 

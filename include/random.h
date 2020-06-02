@@ -26,16 +26,19 @@ class Random
   int total_age;
   vector<age> ages;
   int ReadFile();
+  time_t rand_time;
 
 public:
   Random();
   Random(string);
+  void setTime(void);
   int getRandom(int);
   int getAge(int);
   int getAgeGroup(int);
   int getBirthYear(int);
-  int getBirthMonth(int);
-  int getBirthDay(int);
+  int getRandomYear(void);
+  int getRandomMonth(void);
+  int getRandomDay(void);
   int getReward(int);
 };
 
