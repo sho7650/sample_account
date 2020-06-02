@@ -33,12 +33,13 @@ int main(int argc, char *argv[])
       {"city", no_argument, NULL, 'c'},
       {"gender", no_argument, NULL, 'g'},
       {"blood", no_argument, NULL, 'b'},
+      {"date", no_argument, NULL, 'd'},
       {0, 0, 0, 0},
   };
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "ilfmaotpwrycgb", longopts, &longindex)) != -1)
+  while ((opt = getopt_long(argc, argv, "ilfmaotpwrycgbd", longopts, &longindex)) != -1)
   {
     opts[max_opts++] = opt;
   }
@@ -138,6 +139,9 @@ int main(int argc, char *argv[])
         case 'y':
           printf("%i", number.getBirthYear(age));
           break;
+
+        case 'd':
+          printf("%i/%i/%i", number.getBirthYear(age), number.getBirthMonth(age), number.getBirthDay(age));
           //      case 'a': { printf("%s%s%s%d-%d", addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100);
         }
       }

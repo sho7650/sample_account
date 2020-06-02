@@ -9,21 +9,24 @@
 
 #include <vector>
 
-#define  AGE_FILE "data/ages.csv"
+#define AGE_FILE "data/ages.csv"
 
 using namespace std;
 
-struct age {
+struct age
+{
   int generation;
   int population;
   int start;
 };
 
-class Random {
+class Random
+{
   string age_file;
   int total_age;
-  vector <age> ages;
+  vector<age> ages;
   int ReadFile();
+
 public:
   Random();
   Random(string);
@@ -31,6 +34,8 @@ public:
   int getAge(int);
   int getAgeGroup(int);
   int getBirthYear(int);
+  int getBirthMonth(int);
+  int getBirthDay(int);
   int getReward(int);
 };
 
