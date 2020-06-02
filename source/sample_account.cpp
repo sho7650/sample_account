@@ -34,12 +34,15 @@ int main(int argc, char *argv[])
       {"gender", no_argument, NULL, 'g'},
       {"blood", no_argument, NULL, 'b'},
       {"date", no_argument, NULL, 'd'},
+      {"reward", no_argument, NULL, 'r'},
+      {"random", no_argument, NULL, 'n'},
+      {"quotient", no_argument, NULL, 'q'},
       {0, 0, 0, 0},
   };
 
   int opt, longindex;
 
-  while ((opt = getopt_long(argc, argv, "ilfmaotpwrycgbd", longopts, &longindex)) != -1)
+  while ((opt = getopt_long(argc, argv, "ilfmaotpwrycgbdnq", longopts, &longindex)) != -1)
   {
     opts[max_opts++] = opt;
   }
@@ -141,7 +144,17 @@ int main(int argc, char *argv[])
           break;
 
         case 'd':
-          printf("%i/%i/%i", number.getBirthYear(age), number.getBirthMonth(age), number.getBirthDay(age));
+          printf("%i/%i/%i", 2020 - rand() % 3, number.getBirthMonth(age), number.getBirthDay(age));
+          break;
+
+        case 'n':
+          printf("%i", (rand() % 20001 - 10000) * 1000);
+          break;
+
+        case 'q':
+          printf("%1.2f", (double)(rand() % 100) / 100);
+          break;
+
           //      case 'a': { printf("%s%s%s%d-%d", addr.getPrefecture(pref).c_str(), addr.getWard(pref, ward).c_str(), addr.getCity(pref, city).c_str(), rand()%100, rand()%100);
         }
       }
