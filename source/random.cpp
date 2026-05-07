@@ -1,8 +1,29 @@
+#include <cstdint>
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <time.h>
 
 #include "random.h"
 
 using namespace std;
+
+namespace {
+// Strip ASCII commas and whitespace before parsing a population field.
+// Required because data/ages.csv uses thousand-separators (e.g. "4,987,706").
+int parse_population(const string &s)
+{
+  string digits;
+  digits.reserve(s.size());
+  for (char c : s)
+  {
+    if (c >= '0' && c <= '9')
+      digits.push_back(c);
+  }
+  return digits.empty() ? 0 : stoi(digits);
+}
+} // namespace
 
 Random::Random()
 {
@@ -19,7 +40,9 @@ Random::Random(string s)
 void Random::setTime(void)
 {
   time_t now = time(nullptr);
-  rand_time = rand() % now;
+  // rand() returns at most ~2^31; combine two draws to span time_t's range.
+  uint64_t r = (static_cast<uint64_t>(rand()) << 32) ^ static_cast<uint32_t>(rand());
+  rand_time = static_cast<time_t>(r % static_cast<uint64_t>(now));
 }
 
 int Random::ReadFile()
@@ -43,7 +66,7 @@ int Random::ReadFile()
     getline(stream, token, ',');
     tmp.generation = stoi(token);
     getline(stream, token);
-    tmp.population = stoi(token);
+    tmp.population = parse_population(token);
     tmp.start = total_age;
 
     ages.push_back(tmp);
@@ -52,26 +75,29 @@ int Random::ReadFile()
   return 0;
 }
 
+// Find the bucket whose [start, start+population) range contains `total`.
+// Returns ages.size()-1 if `total` lies past the last start (defensive).
+static size_t findAgeBucket(const vector<age> &ages, int total)
+{
+  size_t i = 0;
+  while (i + 1 < ages.size() && ages[i + 1].start <= total)
+    ++i;
+  return i;
+}
+
 int Random::getAge(int num)
 {
-  int i = 0, total = num % total_age;
-
-  while (ages[i].start < total)
-    ++i;
-
+  int total = num % total_age;
+  size_t i = findAgeBucket(ages, total);
   return (ages[i].generation + num % 5);
 }
 
 int Random::getAgeGroup(int num)
 {
-  int i = 0, r = 0, total = num % total_age;
-
-  while (ages[i].start < total)
-    ++i;
-
-  r = ages[i].generation / 10;
-
-  return (r *= 10);
+  int total = num % total_age;
+  size_t i = findAgeBucket(ages, total);
+  int r = ages[i].generation / 10;
+  return (r * 10);
 }
 
 int Random::getBirthYear(int num)

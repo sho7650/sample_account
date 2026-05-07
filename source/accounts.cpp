@@ -63,7 +63,7 @@ string Account::FirstName(int num)
 
 string Account::mailAddress(int first, int last)
 {
-  return (sample_accounts[first % total_accounts].first_name + "_" + sample_accounts[last % total_accounts].last_name + "@" + DOMAIN);
+  return (sample_accounts[first % total_accounts].first_name + "_" + sample_accounts[last % total_accounts].last_name + "@" + MAIL_DOMAIN);
 }
 
 string Account::getGender(int num)
