@@ -10,15 +10,20 @@ using namespace std;
 
 int Prefecture::getZip(int pref, int num)
 {
-  int i = 0, r = 0;
-  if (pref > r)
-  {
-    for (i = 0; i < pref; i++)
-    {
-      r += sample_prefectures[i].zips;
-    }
-  }
-  return ((num % sample_prefectures[i].zips) + r);
+  if (pref < 0 || pref >= PREFECTURES)
+    pref = 0;
+
+  int r = 0;
+  for (int i = 0; i < pref; i++)
+    r += sample_prefectures[i].zips;
+
+  int zips = sample_prefectures[pref].zips;
+  if (zips <= 0)
+    return r;
+
+  if (num < 0)
+    num = -num;
+  return ((num % zips) + r);
 }
 
 Prefecture::Prefecture()
